@@ -1,1 +1,1 @@
-php build/index.php
+web: build/index.php
