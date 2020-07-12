@@ -1,14 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Home,
-    Drafts,
+    Search,
+    PermMedia,
+    Assignment,
     MoreHoriz,
+    Assessment,
     FindInPage,
+    TrackChanges,
     ArrowBackIos,
     DeveloperBoard,
     ArrowForwardIos,
+    RadioButtonChecked
 } from '@material-ui/icons/';
 import {
     Box,
@@ -30,7 +35,8 @@ import {
     ListItemIcon,
     ListItemText
 } from '@material-ui/core/';
-import logo from '../../assets/byjusLogo.PNG'
+import logo from '../../assets/byjusLogo.PNG';
+import malePP from '../../assets/malePP.png';
 import CustomList from '../../CommonComponents/List';
 
 const drawerWidth = 180;
@@ -40,7 +46,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   paper: {
-    background: "#833589"
+    background: "#833589",
+    borderRight: 'none'
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -75,9 +82,9 @@ const useStyles = makeStyles((theme) => ({
     }),
     overflowX: 'hidden',
     width: theme.spacing(7) + 1,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9) + 1,
-    },
+    // [theme.breakpoints.up('sm')]: {
+    //   width: theme.spacing(9) + 1,
+    // },
   },
   toolbar: {
     display: 'flex',
@@ -94,8 +101,8 @@ const useStyles = makeStyles((theme) => ({
 
 function a11yProps(index) {
     return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
+      id: `scrollable-force-tab-${index}`,
+      'aria-controls': `scrollable-force-tabpanel-${index}`,
     };
 }
 
@@ -106,8 +113,8 @@ function TabPanel(props) {
       <div
         role="tabpanel"
         hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
+        id={`scrollable-force-tabpanel-${index}`}
+        aria-labelledby={`scrollable-force-tab-${index}`}
         {...other}
       >
         {value === index && (
@@ -124,12 +131,25 @@ export default function Dashboard(props) {
   console.log(props)
   const { courseData: { courseDetails } } = props
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(0);
+  const [open, setOpen] = useState(false);
+  const [mainTabValue, setMainTabValue] = useState(0);
+  const [subTabValue, setSubTabValue] = useState(2);
+  const [tabsWidth, setTabsWidth] = useState(window.innerWidth + 'px')
+  const [selected, setSelected] = useState(2)
 
   useEffect(() => {
     console.log(courseDetails)
   }, [courseDetails]);
+
+
+  useEffect(() => {
+    window.addEventListener("resize", updateTabsWidth);
+    return () => window.removeEventListener("resize", updateTabsWidth);
+  });
+
+  const updateTabsWidth = () => {
+    setTabsWidth(window.innerWidth);
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -140,20 +160,32 @@ export default function Dashboard(props) {
   };
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setSubTabValue(newValue)
   };
 
-  const getMenuItems = (menuName) => {
+  const getMenuItems = (menuName, index) => {
     if (menuName === 'Home') {
-      return <Home />
+        return <Home style={selected === index ? {fill: "#833589"} : {fill : "#fff"}}/>
     } else if (menuName === 'Search') {
-      return <FindInPage />
-    } else if (menuName === 'Drafts') {
-      return <Drafts />
+        return <FindInPage style={selected === index ? {fill: "#833589"} : {fill : "#fff"}}/>
     } else if (menuName === 'Courses') {
-      return <DeveloperBoard />
+        return <DeveloperBoard style={selected === index ? {fill: "#833589"} : {fill : "#fff"}}/>
+    } else if (menuName === 'Assignment') {
+        return <Assignment style={selected === index ? {fill: "#833589"} : {fill : "#fff"}}/>
+    } else if (menuName === 'Assessment') {
+        return <Assessment style={selected === index ? {fill: "#833589"} : {fill : "#fff"}}/>
+    } else if (menuName === 'Share') {
+      return <PermMedia style={selected === index ? {fill: "#833589"} : {fill : "#fff"}}/>
+    } else if (menuName === 'Track') {
+      return <TrackChanges style={selected === index ? {fill: "#833589"} : {fill : "#fff"}}/>
     }
   }
+
+  const updateSelected = (index) => {
+    console.log(index)
+    setSelected(index);
+  }
+  
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -164,19 +196,27 @@ export default function Dashboard(props) {
         })}
         style={{ backgroundColor: '#fafafa', color: '#000', boxShadow: '0px 1px 1px -1px' }}
       >
-        <Toolbar style={{ padding: 10, alignItems: 'inherit' }}>
-          <img src={logo} alt="logo" className={classes.logo} />
-          <div style={{ flexDirection: 'row', textAlign: 'start', marginLeft: 50 }}>
-            <Typography style={{ fontWeight: 600 }} variant="subtitle1" noWrap>
-                CBSC: Grade 5 Maths - Algebra
-            </Typography>
-            <Tabs TabIndicatorProps={{style: {background:'#833589'}}} value={value} onChange={handleChange} aria-label="simple tabs example" style={{ minHeight: 24, paddingTop: 5 }}>
-                <Tab label="Task" {...a11yProps(0)} style={{ margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10 }} />
-                <Tab label="Conversation" {...a11yProps(1)} style={{ margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
-                <Tab label="Files" {...a11yProps(2)} style={{ margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
-                <Tab label="Resources" {...a11yProps(2)} style={{ margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
-                <Tab label="Status" {...a11yProps(2)} style={{ margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
-            </Tabs>
+        <Toolbar style={{ padding: 10, alignItems: 'inherit', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <img src={logo} alt="logo" className={classes.logo} style={{ marginLeft: -5 }} />
+            <div style={{ flexDirection: 'row', textAlign: 'start' }}>
+              <Typography style={{ fontWeight: 600, marginLeft: 40 }} variant="subtitle1" noWrap>
+                  CBSE: Grade 5 Maths - Algebra
+              </Typography>
+              <Tabs variant="scrollable" scrollButtons="on" inkBarStyle={{background: 'blue'}} TabIndicatorProps={{style: {background:'#833589'}}} value={mainTabValue} aria-label="scrollable force tabs example" style={ tabsWidth < 760 ? { minHeight: 24, paddingTop: 5, width: 150 } : { minHeight: 24, paddingTop: 5, width: 475 }}>
+                  <Tab label="Task" {...a11yProps(0)} style={{ margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, color: '#000', fontWeight: 'bold' }} />
+                  <Tab label="Conversation" {...a11yProps(1)} style={{ margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
+                  <Tab label="Files" {...a11yProps(2)} style={{ margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
+                  <Tab label="Resources" {...a11yProps(2)} style={{ margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
+                  <Tab label="Status" {...a11yProps(2)} style={{ margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
+              </Tabs>
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Search style={{fill: "#833589"}}/>
+            <RadioButtonChecked style={{fill: "#833589", marginLeft: 20}}/>
+            <img src={malePP} alt="logo" className={classes.logo} style={{ width: 20, height: 20, marginLeft: 20 }} />
+            <text style={{ marginLeft: 5 }}>Amit Kumar</text>
           </div>
         </Toolbar>
       </AppBar>
@@ -197,12 +237,12 @@ export default function Dashboard(props) {
         <div className={classes.drawerContainer}>
         <Divider />
         <List>
-          {['Home', 'Courses', 'Search', 'Drafts'].map((menuName, index) => (
-            <ListItem button key={menuName}>
+          {['Home', 'Search', 'Courses', 'Assignment', 'Share', 'Track', 'Assessment'].map((menuName, index) => (
+            <ListItem button key={menuName} onClick={() => updateSelected(index)} selected={selected === index} style={ selected === index ? { backgroundColor: '#fff', borderTopLeftRadius: 5, borderBottomLeftRadius: 5, padding: 15} : {padding: 15}}>
               <ListItemIcon>
-                {getMenuItems(menuName)}
+                {getMenuItems(menuName, index)}
               </ListItemIcon>
-              <ListItemText primary={menuName} />
+              <ListItemText primary={menuName} style={ selected === index ? { color: '#000' } : { color: '#fff' } } />
             </ListItem>
           ))}
         </List>
@@ -216,7 +256,7 @@ export default function Dashboard(props) {
                 aria-label="open drawer"
                 onClick={handleDrawerOpen}
                 edge="start" 
-                style={{ marginTop: 300, marginLeft: 0, height: 70, width: 20, backgroundColor: '#d8d6d8', borderRadius: 0 }}
+                style={{ marginTop: 300, marginLeft: 0, height: 70, width: 20, backgroundColor: '#d8d6d8', borderRadius: 5 }}
               >
                 <ArrowForwardIos />
               </IconButton>
@@ -238,56 +278,56 @@ export default function Dashboard(props) {
       </div>
       <main className={classes.content} style={{ padding: 0, marginLeft: 11, marginTop: 10 }}>
         <div className={classes.toolbar} />
-        <Tabs TabIndicatorProps={{style: {background:'#833589'}}} value={value} onChange={handleChange} aria-label="simple tabs example" style={{ minHeight: 24, paddingTop: 5 }}>
-            <Tab label="List" {...a11yProps(0)} style={{ margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10 }} />
-            <Tab label="Gantt" {...a11yProps(1)} style={{ margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
-            <Tab label="Board" {...a11yProps(2)} style={{ margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
-            <Tab label="Calendar" {...a11yProps(3)} style={{ margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
-            <Tab label="Pivot" {...a11yProps(4)} style={{ margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
-            <Tab label="Process" {...a11yProps(5)} style={{ margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
+        <Tabs scrollable={true} scrollButtons="on" TabIndicatorProps={{style: {background:'#833589'}}} value={subTabValue} onChange={handleChange} aria-label="simple tabs example" style={{ minHeight: 24, paddingTop: 5 }}>
+            <Tab label="List" {...a11yProps(0)} style={subTabValue === 0 ? { color: '#000', fontWeight: 'bold', margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10 } : { margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10 }} />
+            <Tab label="Gantt" {...a11yProps(1)} style={subTabValue === 1 ? { color: '#000', fontWeight: 'bold', margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 } : { margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
+            <Tab label="Board" {...a11yProps(2)} style={subTabValue === 2 ? { color: '#000', fontWeight: 'bold', margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 } : { margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
+            <Tab label="Calendar" {...a11yProps(3)} style={subTabValue === 3 ? { color: '#000', fontWeight: 'bold', margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 } : { margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
+            <Tab label="Pivot" {...a11yProps(4)} style={subTabValue === 4 ? { color: '#000', fontWeight: 'bold', margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 } : { margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
+            <Tab label="Process" {...a11yProps(5)} style={subTabValue === 5 ? { color: '#000', fontWeight: 'bold', margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 } : { margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
         </Tabs>
-        <TabPanel value={value} index={0}>
-            <Grid
-                    container
-                    spacing={2}
-                    direction="row"
-                    justify="flex-start"
-                    alignItems="flex-start"
-                >
-                    {courseDetails && courseDetails.map(list => (
-                        <Grid item xs={12} sm={6} md={4} key={courseDetails.indexOf(list)}>
-                            <Card style={{backgroundColor: "#efededde"}}>
-                                <CardHeader
-                                    action={
-                                    <IconButton aria-label="settings">
-                                        <MoreHoriz />
-                                    </IconButton>
-                                    }
-                                    title={list.type}
-                                    titleTypographyProps={{variant:'subtitle2' }}
-                                    style={{ margin: 0, paddingTop: 0, paddingRight: 25, paddingLeft: 25, paddingBottom: 0, textAlign: 'start' }}
-                                />
-                                <CardContent style={{ marginTop: 0, paddingTop: 0 }}>
-                                    <CustomList listData={list.data} type={list.type} />
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                    ))}
-                </Grid>
-        </TabPanel>
-        <TabPanel value={value} index={1} style={{ justifyContent: 'center', textAlign: 'center' }}>
+        <TabPanel value={subTabValue} index={0}>
             Coming Soon...
         </TabPanel>
-        <TabPanel value={value} index={2}>
+        <TabPanel value={subTabValue} index={1} style={{ justifyContent: 'center', textAlign: 'center' }}>
             Coming Soon...
         </TabPanel>
-        <TabPanel value={value} index={3}>
+        <TabPanel value={subTabValue} index={2}>
+          <Grid
+            container
+            spacing={2}
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-start"
+          >
+              {courseDetails && courseDetails.map(list => (
+                  <Grid item xs={12} sm={6} md={4} key={courseDetails.indexOf(list)}>
+                      <Card style={{backgroundColor: "#efededde"}}>
+                          <CardHeader
+                              action={
+                              <IconButton aria-label="settings">
+                                  <MoreHoriz />
+                              </IconButton>
+                              }
+                              title={list.type}
+                              titleTypographyProps={{variant:'subtitle2' }}
+                              style={{ margin: 0, paddingTop: 0, paddingRight: 25, paddingLeft: 25, paddingBottom: 0, textAlign: 'start' }}
+                          />
+                          <CardContent style={{ marginTop: 0, paddingTop: 0 }}>
+                              <CustomList listData={list.data} type={list.type} />
+                          </CardContent>
+                      </Card>
+                  </Grid>
+              ))}
+          </Grid>
+        </TabPanel>
+        <TabPanel value={subTabValue} index={3}>
             Coming Soon...
         </TabPanel>
-        <TabPanel value={value} index={4}>
+        <TabPanel value={subTabValue} index={4}>
             Coming Soon...
         </TabPanel>
-        <TabPanel value={value} index={5}>
+        <TabPanel value={subTabValue} index={5}>
             Coming Soon...
         </TabPanel>
       </main>

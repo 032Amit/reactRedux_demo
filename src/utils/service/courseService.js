@@ -5,16 +5,16 @@ const courseDetails = [
         type: 'On Track',
         data: [
             {
-                title: 'CBSC: Grade 5 Maths - Algebra'
+                title: 'CBSE: Grade 5 Maths - Algebra'
             },
             {
-                title: 'CBSC: Grade 4 Maths - Algebra'
+                title: 'CBSE: Grade 4 Maths - Algebra'
             },
             {
-                title: 'CBSC: Grade 3 Maths - Algebra'
+                title: 'CBSE: Grade 3 Maths - Algebra'
             },
             {
-                title: 'CBSC: Grade 2 Maths - Algebra'
+                title: 'CBSE: Grade 2 Maths - Algebra'
             },
         ]
     },
@@ -22,16 +22,16 @@ const courseDetails = [
         type: 'Delayed',
         data: [
             {
-                title: 'CBSC: Grade 5 English'
+                title: 'CBSE: Grade 5 English'
             },
             {
-                title: 'CBSC: Grade 4 English'
+                title: 'CBSE: Grade 4 English'
             },
             {
-                title: 'CBSC: Grade 3 English'
+                title: 'CBSE: Grade 3 English'
             },
             {
-                title: 'CBSC: Grade 2 English'
+                title: 'CBSE: Grade 2 English'
             },
         ]
     },
@@ -39,16 +39,16 @@ const courseDetails = [
         type: 'On Hold',
         data: [
             {
-                title: 'CBSC: Grade 5 Science'
+                title: 'CBSE: Grade 5 Science'
             },
             {
-                title: 'CBSC: Grade 4 Science'
+                title: 'CBSE: Grade 4 Science'
             },
             {
-                title: 'CBSC: Grade 3 Science'
+                title: 'CBSE: Grade 3 Science'
             },
             {
-                title: 'CBSC: Grade 2 Science'
+                title: 'CBSE: Grade 2 Science'
             },
         ]
     },

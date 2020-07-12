@@ -5,12 +5,14 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import { red } from '@material-ui/core/colors';
-import {MoreVert, AccountBox, RadioButtonChecked} from '@material-ui/icons/';
+import malePP from '../../assets/malePP.png'
+import femalePP from '../../assets/femalePP.png'
+import {MoreVert, RadioButtonChecked, Event} from '@material-ui/icons/';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: 345,
-  },
+  // root: {
+  //   maxWidth: 365,
+  // },
   media: {
     height: 0,
     paddingTop: '56.25%', // 16:9
@@ -65,11 +67,24 @@ export default function CustomList(props) {
                 style={{ margin: 0, paddingTop: 0, paddingRight: 10, paddingLeft: 10, paddingBottom: 0, textAlign: 'start' }}
                 />
                 <CardContent style={{ paddingBottom: 0 }}>
-                    <div style={{ flexDirection: 'row', textAlign: 'start', display: 'flex', alignItems:'center', marginBottom: 5 }}>
-                        <AccountBox />
-                        <AccountBox />
-                        <RadioButtonChecked style={{ width: 15, height: 15 }} />
+                  <div style={{ display: 'flex' ,flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                    <div style={{ flexDirection: 'row', justifyContent: 'flex-start', textAlign: 'start', display: 'flex', alignItems:'center' }}>
+                        <img src={femalePP} alt="logo" className={classes.logo} style={{ width: 20, height: 20 }} />
+                        <img src={malePP} alt="logo" className={classes.logo} style={{ width: 20, height: 20, marginLeft: 10 }} />
+                        <RadioButtonChecked style={{ width: 15, height: 15, marginLeft: 10, fill: "#833589" }} />
                     </div>
+                    <div style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+                      <div style={{ flexDirection: 'row', display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+                        <div style={{ display: 'contents',flexDirection: 'row', fontSize: 10 }}>
+                          <Event style={{ width: 15, height: 15, marginRight: 5}} />
+                          <text>21 nov 2020</text>
+                        </div>
+                        <div style={{ backgroundColor: 'blue', marginLeft: 10, width: 45, borderRadius: 3, fontSize: 12, color: '#fff' }}>
+                          75%
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </CardContent>
             </Card>
         </div>
