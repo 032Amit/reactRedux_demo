@@ -203,7 +203,7 @@ export default function Dashboard(props) {
               <Typography style={{ fontWeight: 600, marginLeft: 40 }} variant="subtitle1" noWrap>
                   CBSE: Grade 5 Maths - Algebra
               </Typography>
-              <Tabs variant="scrollable" scrollButtons="on" inkBarStyle={{background: 'blue'}} TabIndicatorProps={{style: {background:'#833589'}}} value={mainTabValue} aria-label="scrollable force tabs example" style={ tabsWidth < 760 ? { minHeight: 24, paddingTop: 5, width: 150 } : { minHeight: 24, paddingTop: 5, width: 475 }}>
+              <Tabs variant="scrollable" scrollButtons="on" inkBarStyle={{background: 'blue'}} TabIndicatorProps={{style: {background:'#833589'}}} value={mainTabValue} aria-label="scrollable force tabs example" style={ tabsWidth <= 760 || window.innerWidth <= 524 ? { minHeight: 24, paddingTop: 5, width: 150 } : { minHeight: 24, paddingTop: 5, width: 475 }}>
                   <Tab label="Task" {...a11yProps(0)} style={{ margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, color: '#000', fontWeight: 'bold' }} />
                   <Tab label="Conversation" {...a11yProps(1)} style={{ margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
                   <Tab label="Files" {...a11yProps(2)} style={{ margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
@@ -278,7 +278,7 @@ export default function Dashboard(props) {
       </div>
       <main className={classes.content} style={{ padding: 0, marginLeft: 11, marginTop: 10 }}>
         <div className={classes.toolbar} />
-        <Tabs scrollable={true} scrollButtons="on" TabIndicatorProps={{style: {background:'#833589'}}} value={subTabValue} onChange={handleChange} aria-label="simple tabs example" style={{ minHeight: 24, paddingTop: 5 }}>
+        <Tabs scrollable={true} scrollButtons="on" TabIndicatorProps={{style: {background:'#833589'}}} value={subTabValue} onChange={handleChange} aria-label="simple tabs example" style={{ minHeight: 24, paddingTop: 15 }}>
             <Tab label="List" {...a11yProps(0)} style={subTabValue === 0 ? { color: '#000', fontWeight: 'bold', margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10 } : { margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10 }} />
             <Tab label="Gantt" {...a11yProps(1)} style={subTabValue === 1 ? { color: '#000', fontWeight: 'bold', margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 } : { margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
             <Tab label="Board" {...a11yProps(2)} style={subTabValue === 2 ? { color: '#000', fontWeight: 'bold', margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 } : { margin: 0, padding: 0, minHeight: 10, minWidth: 55, fontSize: 10, marginLeft: 20 }} />
